@@ -30,7 +30,7 @@ class WallFollower(Node):
     def __init__(self):
         super().__init__('WallFollower')
         self.scan_subscriber = self.create_subscription(LaserScan, "/scan",self.scan_callback,qos_profile_sensor_data)
-        self.cmd_vel_publisher = self.create_publisher(Twist, "/cmd_vel", qos_profile_sensor_data)
+        self.cmd_vel_publisher = self.create_publisher(Twist, "/cmd_vel", 10)
 
         self.left_dist = 99999999.9
         self.front_dist = 99999999.9
@@ -50,7 +50,7 @@ class WallFollower(Node):
 
         self.dist_laser_offset = 0.03
 
-        self.dist_trashhold_wf = 0.3
+        self.dist_treshhold_wf = 0.3
         self.dist_hysteresis_wf = 0.02
         self.valid_lidar_data = False
 
@@ -61,7 +61,7 @@ class WallFollower(Node):
             self.follow_wall()
 
     def follow_wall(self):
-        msg = Twist
+        msg = Twist()
         msg.linear.x = 0.0
         msg.linear.y = 0.0
         msg.linear.z = 0.0
@@ -71,17 +71,21 @@ class WallFollower(Node):
         msg.angular.z = 0.0
 
         if self.wallfollower_state == WallFollowerStates.WF_STATE_DETECTWALL:
+            print("Hallo 1")
             dist_min = min(self.distances)
             if self.front_dist > (dist_min + self.dist_laser_offset):
+                print("Hallo 2 - Drehe mich")
                 if abs(self.front_dist - dist_min) <0.2:
                     msg.angular.z = self.turning_speed_wf_slow
                 else: 
                     msg.angular.z = self.turning_speed_wf_fast
-
             else:
                 print("WF_STATE_DRIVE2WALL")
                 self.wallfollower_state = WallFollowerStates.WF_STATE_DRIVE2WALL
+        elif self.wallfollower_state == WallFollowerStates.WF_STATE_DRIVE2WALL:
+            print("Kommt als nächstes")
 
+        print("Hallo 3: Nachricht an Roboter senden")
         self.cmd_vel_publisher.publish(msg)
 
 
@@ -94,12 +98,38 @@ class WallFollower(Node):
         self.rightfront_dist = msg.ranges[ROBOT_DIRECTION_RIGHT_FRONT_INDEX]
         self.rear_dist = msg.ranges[ROBOT_DIRECTION_REAR_INDEX]
 
+        self.distances = msg.ranges
+
         print("ld: %.2f m\n"% self.left_dist,
               "lfd: %.2f m\n"%self.leftfront_dist,
               "fd: %.2f m\n"%self.front_dist,
               "rfd: %.2f m\n"%self.rightfront_dist,
               "rd: %.2f m\n"% self.right_dist,
               "rrd: %.2f m\n"% self.rear_dist)
+        
+        self.valid_lidar_data=True
+
+    def calc_linear_speed(self):
+        fd_thresh = self.dist_treshhold_wf + self.dist_laser_offset
+        if self.front_dist> (1.2 * fd_thresh):
+            forward_speed_wf = self.forward_speed_wf_fast
+        else:
+            forward_speed_wf = self.forward_speed_wf_slow
+
+        return forward_speed_wf
+    
+    def align_front(self):
+        fl = self.distances[ROBOT_DIRECTION_LEFT_FRONT_INDEX]
+        fr = self.distances[ROBOT_DIRECTION_RIGHT_FRONT_INDEX]
+
+        if (fl-fr)> self.dist_hysteresis_wf:
+            return 1
+        elif (fr-fl) > self.dist_hysteresis_wf:
+            return -1
+        else:
+            return 0
+
+     
 
 
 def main(args=None):
