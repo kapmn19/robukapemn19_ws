@@ -1,0 +1,23 @@
+[1.134s] Invoking command in '/home/robu/work/robukapemn19_ws/src/robu': PYTHONPATH=/home/robu/work/robukapemn19_ws/build/robu/prefix_override:/home/robu/work/robukapemn19_ws/install/robu/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/robu build --build-base /home/robu/work/robukapemn19_ws/build/robu/build install --record /home/robu/work/robukapemn19_ws/build/robu/install.log --single-version-externally-managed
+[1.577s] running egg_info
+[1.578s] writing ../../build/robu/robu.egg-info/PKG-INFO
+[1.578s] writing dependency_links to ../../build/robu/robu.egg-info/dependency_links.txt
+[1.578s] writing entry points to ../../build/robu/robu.egg-info/entry_points.txt
+[1.579s] writing requirements to ../../build/robu/robu.egg-info/requires.txt
+[1.579s] writing top-level names to ../../build/robu/robu.egg-info/top_level.txt
+[1.581s] reading manifest file '../../build/robu/robu.egg-info/SOURCES.txt'
+[1.582s] writing manifest file '../../build/robu/robu.egg-info/SOURCES.txt'
+[1.583s] running build
+[1.583s] running build_py
+[1.583s] running install
+[1.584s] running install_lib
+[1.585s] running install_data
+[1.588s] running install_egg_info
+[1.589s] removing '/home/robu/work/robukapemn19_ws/install/robu/lib/python3.10/site-packages/robu-0.0.0-py3.10.egg-info' (and everything under it)
+[1.589s] Copying ../../build/robu/robu.egg-info to /home/robu/work/robukapemn19_ws/install/robu/lib/python3.10/site-packages/robu-0.0.0-py3.10.egg-info
+[1.590s] running install_scripts
+[1.622s] Installing mypublisher script to /home/robu/work/robukapemn19_ws/install/robu/lib/robu
+[1.622s] Installing mysubsciber script to /home/robu/work/robukapemn19_ws/install/robu/lib/robu
+[1.623s] Installing wallfollower script to /home/robu/work/robukapemn19_ws/install/robu/lib/robu
+[1.625s] writing list of installed files to '/home/robu/work/robukapemn19_ws/build/robu/install.log'
+[1.669s] Invoked command in '/home/robu/work/robukapemn19_ws/src/robu' returned '0': PYTHONPATH=/home/robu/work/robukapemn19_ws/build/robu/prefix_override:/home/robu/work/robukapemn19_ws/install/robu/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/robu build --build-base /home/robu/work/robukapemn19_ws/build/robu/build install --record /home/robu/work/robukapemn19_ws/build/robu/install.log --single-version-externally-managed
